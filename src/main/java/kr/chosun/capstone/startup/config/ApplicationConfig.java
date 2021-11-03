@@ -1,0 +1,12 @@
+package kr.chosun.capstone.startup.config;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+
+@Configuration
+@ComponentScan(basePackages = {"kr.chosun.capstone.startup.service","kr.chosun.capstone.startup.repository"})
+@Import({DBConfig.class})
+public class ApplicationConfig {
+
+}
