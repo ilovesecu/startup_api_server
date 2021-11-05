@@ -27,8 +27,10 @@ public class MemberServiceImpl implements MemberService {
 	@Transactional
 	public int register(Member member) {
 		int memSeq=memberDao.insert(member);
-		member.getCharacter().setMemSeq(memSeq);
-		characterDao.insert(member.getCharacter());
+		if(member.getMemType().equals("STUDENT")) { //만약에 대학생을 선택했다면 캐릭터까지 DB에 넣어준다.
+			member.getCharacter().setMemSeq(memSeq);
+			characterDao.insert(member.getCharacter());
+		}
 		return 0;
 	}
 

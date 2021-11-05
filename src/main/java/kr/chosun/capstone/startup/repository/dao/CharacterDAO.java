@@ -22,8 +22,8 @@ public class CharacterDAO {
 	public CharacterDAO(DataSource dataSource) {
 		this.jdbc = new NamedParameterJdbcTemplate(dataSource);
 		this.insertAction = new SimpleJdbcInsert(dataSource)
-				.usingColumns("mem_seq","mem_nickname","mem_major","mem_mbti")
-				.withTableName("character");
+				.usingColumns("mem_seq","mem_nickname","univ_seq","mem_major","mem_mbti")
+				.withTableName("character_");
 	}
 	
 	public int insert(Character member) {

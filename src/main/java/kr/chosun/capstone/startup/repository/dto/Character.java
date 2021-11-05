@@ -15,7 +15,7 @@ public class Character {
 	private int univSeq;
 	private int teamSeq;
 	private String memMajor;
-	private String memMinor;
+	//private String memMinor;
 	private String memMbti;
 	private int profileSeq; //FileInfo
 }
