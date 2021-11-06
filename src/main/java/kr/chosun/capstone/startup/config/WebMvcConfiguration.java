@@ -32,7 +32,7 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter{
     
     @Bean
     public MultipartResolver multipartResolver() {
-    	StandardServletMultipartResolver multipartResolver = new StandardServletMultipartResolver();
-    	return multipartResolver();
+        StandardServletMultipartResolver multipartResolver = new StandardServletMultipartResolver();
+        return multipartResolver;
     }
 }

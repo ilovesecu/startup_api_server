@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	version="3.1">
 	<display-name>StartUp Project</display-name>
-	 
+
 	<!-- Service와 Repository 설정파일을 읽어들이는 ContextLoaderListener 설정 -->
 	<context-param>
 		<param-name>contextClass</param-name>
@@ -18,7 +18,7 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	
+
 	<!-- DispatcherServlet -->
 	<servlet>
 		<servlet-name>mvc</servlet-name>
@@ -32,6 +32,12 @@
 			<param-value>kr.chosun.capstone.startup.config.WebMvcConfiguration</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
+		<multipart-config>
+			<location>C:/upload/startup</location>
+			<max-file-size>10485760</max-file-size>
+			<max-request-size>20971520</max-request-size>
+			<file-size-threshold>10485760</file-size-threshold>
+		</multipart-config>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>mvc</servlet-name>
