@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kr.chosun.capstone.startup.repository.dao.CharacterDAO;
 import kr.chosun.capstone.startup.repository.dao.MemberDAO;
+import kr.chosun.capstone.startup.repository.dto.Character;
 import kr.chosun.capstone.startup.repository.dto.Member;
 import kr.chosun.capstone.startup.service.MemberService;
 
@@ -24,12 +25,15 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly = false)
 	public int register(Member member) {
 		int memSeq=memberDao.insert(member);
 		if(member.getMemType().equals("STUDENT")) { //만약에 대학생을 선택했다면 캐릭터까지 DB에 넣어준다.
-			member.getCharacter().setMemSeq(memSeq);
-			characterDao.insert(member.getCharacter());
+			Character character =  member.getCharacter();
+			character.setMemSeq(memSeq);
+			characterDao.insertCharacter(character);
+			characterDao.insertAward(character.getMemAwards(), memSeq);
+			characterDao.insertPPLink(character.getMemPPLinks(), memSeq);
 		}
 		return 0;
 	}
