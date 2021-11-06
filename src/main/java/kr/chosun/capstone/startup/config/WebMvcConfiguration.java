@@ -1,7 +1,10 @@
 package kr.chosun.capstone.startup.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -25,5 +28,11 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter{
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
     	// default servlet handler를 사용하게 합니다.
         configurer.enable();
+    }
+    
+    @Bean
+    public MultipartResolver multipartResolver() {
+    	StandardServletMultipartResolver multipartResolver = new StandardServletMultipartResolver();
+    	return multipartResolver();
     }
 }
