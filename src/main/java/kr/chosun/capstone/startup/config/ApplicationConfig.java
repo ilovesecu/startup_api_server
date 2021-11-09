@@ -8,5 +8,5 @@ import org.springframework.context.annotation.Import;
 @ComponentScan(basePackages = {"kr.chosun.capstone.startup.service","kr.chosun.capstone.startup.repository"})
 @Import({DBConfig.class})
 public class ApplicationConfig {
-
+	public static String SERVER_CHANGER="localhost";
 }
