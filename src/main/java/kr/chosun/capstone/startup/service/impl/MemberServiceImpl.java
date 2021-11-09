@@ -34,6 +34,7 @@ public class MemberServiceImpl implements MemberService {
 			characterDao.insertCharacter(character);
 			characterDao.insertAward(character.getMemAwards(), memSeq);
 			characterDao.insertPPLink(character.getMemPPLinks(), memSeq);
+			characterDao.insertSkillMember(character.getMemSkills(), memSeq);
 		}
 		return 0;
 	}

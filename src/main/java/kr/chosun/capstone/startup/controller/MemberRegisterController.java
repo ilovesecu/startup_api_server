@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.chosun.capstone.startup.repository.dto.Member;
+import kr.chosun.capstone.startup.repository.dto.Skill;
 import kr.chosun.capstone.startup.repository.dto.University;
 import kr.chosun.capstone.startup.service.MemberService;
+import kr.chosun.capstone.startup.service.SkillService;
 import kr.chosun.capstone.startup.service.UniversityService;
 import kr.chosun.capstone.startup.utils.DateUtil;
 
@@ -20,10 +22,17 @@ public class MemberRegisterController {
 	private UniversityService universityService;
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private SkillService skillService;
 	
 	@GetMapping("/university")
 	public List<University> getUniversitys() {
 		return universityService.getUniversity();
+	}
+	
+	@GetMapping("/skills")
+	public List<Skill> getSkills(){
+		return skillService.getSkills();
 	}
 	
 	@PostMapping("/member")

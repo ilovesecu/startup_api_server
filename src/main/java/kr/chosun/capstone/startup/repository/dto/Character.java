@@ -17,11 +17,12 @@ public class Character {
 	private int univSeq;
 	private int teamSeq;
 	private String memMajor;
-	//private String memMinor;
+	//private String memMinor; //쓰지않음.
 	private String memMbti;
-	private int profileSeq; //FileInfo
+	private int profileSeq; //UploadFile.class
 	private List<MemberPPLink> memPPLinks;
 	private List<MemberAwards> memAwards;
+	private List<Skill> memSkills;
 	
 	/*
 	@Data
