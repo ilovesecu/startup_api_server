@@ -9,15 +9,19 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.chosun.capstone.startup.config.ApplicationConfig;
+import kr.chosun.capstone.startup.service.AuthService;
 import kr.chosun.capstone.startup.service.mail.MailService;
 import kr.chosun.capstone.startup.service.mail.MailType;
+import kr.chosun.capstone.startup.utils.AuthUtil;
 
 @Service
 public class MailServiceImpl implements MailService{
-	
+	@Autowired
+	private AuthUtil authUtil;
 	
 	@Override
 	public int sendMail(String receiver, MailType mailType) throws MessagingException {
@@ -36,14 +40,15 @@ public class MailServiceImpl implements MailService{
 			msg.setFrom(new InternetAddress(SENDER, SENDER_NAME));
 			msg.setRecipient(Message.RecipientType.TO, new InternetAddress(receiver));
 			
-			MailContent mailContent = mailContentGenerator(mailType,"test");
+			String authCode = authUtil.authCodeGenerator(); //인증코드 생성
+			MailContent mailContent = mailContentGenerator(mailType,authCode);
 			msg.setSubject(mailContent.subject);
 			msg.setContent(mailContent.content, "text/html;charset=euc-kr");
 			
 			transport = session.getTransport();
 			System.out.println("Sending...");
 			transport.connect(HOST, SMTP_USERNAME, SMTP_PASSWORD);
-	        transport.sendMessage(msg, msg.getAllRecipients());
+	        transport.sendMessage(msg, msg.getAllRecipients()); //메일전송
 	        System.out.println("Email sent!");
 	        return 1;
 		}catch(Exception e) {
@@ -52,7 +57,6 @@ public class MailServiceImpl implements MailService{
 		}finally {
 			transport.close();
 		}
-		
 	}
 	
 	private MailContent mailContentGenerator(MailType type, String authCode) {

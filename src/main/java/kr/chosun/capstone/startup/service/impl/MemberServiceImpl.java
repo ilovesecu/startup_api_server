@@ -26,7 +26,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	@Transactional(readOnly = false)
-	public int register(Member member) {
+	public Member register(Member member) {
 		int memSeq=memberDao.insert(member);
 		if(member.getMemType().equals("STUDENT")) { //만약에 대학생을 선택했다면 캐릭터까지 DB에 넣어준다.
 			Character character =  member.getCharacter();
@@ -36,7 +36,10 @@ public class MemberServiceImpl implements MemberService {
 			characterDao.insertPPLink(character.getMemPPLinks(), memSeq);
 			characterDao.insertSkillMember(character.getMemSkills(), memSeq);
 		}
-		return 0;
+		if(memSeq!=0)
+			return member;
+		else
+			return null;
 	}
 
 
