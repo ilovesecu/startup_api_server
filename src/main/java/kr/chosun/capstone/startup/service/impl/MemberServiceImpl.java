@@ -2,6 +2,8 @@ package kr.chosun.capstone.startup.service.impl;
 
 import java.util.List;
 
+import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,8 +12,10 @@ import kr.chosun.capstone.startup.repository.dao.CharacterDAO;
 import kr.chosun.capstone.startup.repository.dao.MemberDAO;
 import kr.chosun.capstone.startup.repository.dto.Character;
 import kr.chosun.capstone.startup.repository.dto.Member;
+import kr.chosun.capstone.startup.service.AuthService;
 import kr.chosun.capstone.startup.service.MemberService;
 import kr.chosun.capstone.startup.service.mail.MailService;
+import kr.chosun.capstone.startup.service.mail.MailType;
 import kr.chosun.capstone.startup.utils.AuthUtil;
 
 @Service
@@ -23,7 +27,7 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private MailService mailService;
 	@Autowired
-	private AuthUtil authUtil;
+	private AuthService authService;
 	
 	//모든 멤버 조회
 	@Override
@@ -44,8 +48,14 @@ public class MemberServiceImpl implements MemberService {
 			characterDao.insertPPLink(character.getMemPPLinks(), memSeq);
 			characterDao.insertSkillMember(character.getMemSkills(), memSeq);
 		}
+		
 		//인증메일 전송
-		//mailService.sendMail(null, null);
+		try {
+			int sendResult = authService.sendAuthMail(memSeq, MailType.REGISTER);
+			if(sendResult==0)return null;
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
 		
 		if(memSeq!=0)
 			return member;

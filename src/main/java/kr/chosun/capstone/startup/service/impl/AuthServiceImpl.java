@@ -1,6 +1,7 @@
 package kr.chosun.capstone.startup.service.impl;
 
 import javax.mail.MessagingException;
+import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
