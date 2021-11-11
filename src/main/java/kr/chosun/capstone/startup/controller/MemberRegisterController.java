@@ -25,16 +25,19 @@ public class MemberRegisterController {
 	@Autowired
 	private SkillService skillService;
 	
+	//대학 목록 조회
 	@GetMapping("/university")
 	public List<University> getUniversitys() {
 		return universityService.getUniversity();
 	}
 	
+	//스킬 목록 조회
 	@GetMapping("/skills")
 	public List<Skill> getSkills(){
 		return skillService.getSkills();
 	}
 	
+	//회원가입(일반 / 학생)
 	@PostMapping("/member")
 	public Member register(@RequestBody Member member) {
 		System.out.println(member);

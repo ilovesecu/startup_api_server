@@ -11,6 +11,8 @@ import kr.chosun.capstone.startup.repository.dao.MemberDAO;
 import kr.chosun.capstone.startup.repository.dto.Character;
 import kr.chosun.capstone.startup.repository.dto.Member;
 import kr.chosun.capstone.startup.service.MemberService;
+import kr.chosun.capstone.startup.service.mail.MailService;
+import kr.chosun.capstone.startup.utils.AuthUtil;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -18,7 +20,12 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDAO memberDao;
 	@Autowired
 	private CharacterDAO characterDao;
+	@Autowired
+	private MailService mailService;
+	@Autowired
+	private AuthUtil authUtil;
 	
+	//모든 멤버 조회
 	@Override
 	public List<Member> getMembers() {
 		return null;
@@ -28,6 +35,7 @@ public class MemberServiceImpl implements MemberService {
 	@Transactional(readOnly = false)
 	public Member register(Member member) {
 		int memSeq=memberDao.insert(member);
+		member.setMemSeq(memSeq);
 		if(member.getMemType().equals("STUDENT")) { //만약에 대학생을 선택했다면 캐릭터까지 DB에 넣어준다.
 			Character character =  member.getCharacter();
 			character.setMemSeq(memSeq);
@@ -36,10 +44,19 @@ public class MemberServiceImpl implements MemberService {
 			characterDao.insertPPLink(character.getMemPPLinks(), memSeq);
 			characterDao.insertSkillMember(character.getMemSkills(), memSeq);
 		}
+		//인증메일 전송
+		//mailService.sendMail(null, null);
+		
 		if(memSeq!=0)
 			return member;
 		else
 			return null;
+	}
+	
+	//특정 멤버조회
+	@Override
+	public Member getMember(int memSeq) {
+		return memberDao.selectMemberWithoutJoin(memSeq);
 	}
 
 

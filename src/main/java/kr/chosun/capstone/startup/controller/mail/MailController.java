@@ -20,19 +20,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.chosun.capstone.startup.repository.dto.UploadFile;
+import kr.chosun.capstone.startup.service.AuthService;
 import kr.chosun.capstone.startup.service.mail.MailService;
 import kr.chosun.capstone.startup.service.mail.MailType;
 
 @RestController
 public class MailController {
 	@Autowired
-	MailService mailService;
+	AuthService authService;
 	
 	@PostMapping("/auth/mail/register")
 	public ResponseEntity<Map<String,Object>> sendMail(
-			@RequestParam(value="email", required = true) String receiver) 
+			@RequestParam(value="memseq", required = true) int memSeq) 
 			throws MessagingException {
-		int result = mailService.sendMail(receiver,MailType.REGISTER); //메일 발송
+		int result = authService.sendAuthMail(memSeq,MailType.REGISTER); //메일 발송
 		
 		Map<String,Object> response = new HashMap<>();
 		if(result==1) {

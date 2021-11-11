@@ -1,5 +1,8 @@
 package kr.chosun.capstone.startup.repository.dao;
 
+import java.util.Collections;
+import java.util.Map;
+
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -29,5 +32,12 @@ public class MemberDAO {
 		SqlParameterSource params = new BeanPropertySqlParameterSource(member);
 		Number newMemSeq=insertAction.executeAndReturnKey(params);
 		return newMemSeq.intValue();
+	}
+	
+	//멤버와 관련된 테이블 조인없이 Member테이블의 내용만 조회
+	public Member selectMemberWithoutJoin(int memSeq) {
+		String sql = "SELECT * FROM member WHERE mem_seq=:mem_seq";
+		Map<String,Integer> params = Collections.singletonMap("mem_seq", memSeq);
+		return (Member) jdbc.queryForObject(sql, params, memberMapper);
 	}
 }
