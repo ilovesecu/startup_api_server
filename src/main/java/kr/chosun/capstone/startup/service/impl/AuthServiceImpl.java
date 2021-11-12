@@ -5,10 +5,12 @@ import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.chosun.capstone.startup.config.ApplicationConfig;
 import kr.chosun.capstone.startup.repository.dao.MemberAuthEmailDAO;
 import kr.chosun.capstone.startup.repository.dto.Member;
+import kr.chosun.capstone.startup.repository.dto.MemberAuthEmail;
 import kr.chosun.capstone.startup.service.AuthService;
 import kr.chosun.capstone.startup.service.MemberService;
 import kr.chosun.capstone.startup.service.mail.MailService;
@@ -48,6 +50,27 @@ public class AuthServiceImpl implements AuthService {
 		return 0;
 	}
 	
+	//만료되지 않은 인증코드 링크 클릭 시 인증해주는 메소드
+	@Override
+	@Transactional(readOnly = false)
+	public int authenticationAuthCode(MemberAuthEmail memberAuthEmail) {
+		int result = memberAuthEmailDao.updateAuthCode(memberAuthEmail);
+		/*인증시간을 정상적으로 업데이트 했다면 memSeq를 가져와서
+		  Member테이블에서 mem_stat도 AUTH → NORMAL 로업데이트한다.*/
+		if(result == 1) { 
+			MemberAuthEmail rs=getAuthInfoWithAuthCode(memberAuthEmail.getMaeAuthCode());
+			Member member = memberService.getMember(rs.getMemSeq());
+			
+		}
+		return result;
+	}
+	//인증정보 조회(인증코드로 조회)
+	@Override
+	public MemberAuthEmail getAuthInfoWithAuthCode(String authCode) {
+		return memberAuthEmailDao.selectWithAuthCode(authCode);
+	}
+	
+	//발급된 인증 코드 DB에 insert
 	private int authInfoInsert(int memSeq, String authCode, MailType mailType) {
 		return memberAuthEmailDao.insertMemberAuthEmail(memSeq, authCode, mailType.value());
 	}
@@ -79,4 +102,6 @@ public class AuthServiceImpl implements AuthService {
 		private String subject;
 		private String content;
 	}
+
+
 }

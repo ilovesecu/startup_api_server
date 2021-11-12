@@ -22,4 +22,12 @@ public class DateUtil {
 		String str = sdf.format(date);
 		return str.replace("-", File.separator);
 	}
+	
+	// 년-월-일 시:분:초 스트링값 반환
+	public static String getYYYYMMddHHmmssStr(){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = new Date();
+		String str = sdf.format(date);
+		return str;
+	}
 }

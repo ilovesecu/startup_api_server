@@ -2,6 +2,7 @@ package kr.chosun.capstone.startup.service;
 
 import javax.mail.MessagingException;
 
+import kr.chosun.capstone.startup.repository.dto.MemberAuthEmail;
 import kr.chosun.capstone.startup.service.mail.MailType;
 
 //인증관련 처리
@@ -10,5 +11,8 @@ public interface AuthService {
 	public int getAuthCodeCnt(String authCode); 
 	//인증메일 전송
 	public int sendAuthMail(int memSeq, MailType mailType) throws MessagingException;
-	
+	//인증코드 인증완료
+	public int authenticationAuthCode(MemberAuthEmail memberAuthEmail);
+	//인증정보 조회(인증코드로 조회)
+	public MemberAuthEmail getAuthInfoWithAuthCode(String authCode);
 }
