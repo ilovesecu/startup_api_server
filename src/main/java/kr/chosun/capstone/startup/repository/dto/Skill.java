@@ -6,9 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Skill {
 	private int skillSeq;
 	private String skillNm;

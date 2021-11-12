@@ -14,9 +14,9 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 @EnableTransactionManagement
 public class DBConfig implements TransactionManagementConfigurer{
 	private final String driverName = "com.mysql.cj.jdbc.Driver";
-	private final String dbUrl = "jdbc:mysql://localhost:3306/capstone?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC";
-	private final String dbUser = "startup";
-	private final String dbPassword = "chosun";
+	private final String dbUrl = "jdbc:mysql://localhost:3307/capstone2_test?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC";
+	private final String dbUser = "root";
+	private final String dbPassword = "1234";
 
 	@Bean
 	public DataSource dataSource() {

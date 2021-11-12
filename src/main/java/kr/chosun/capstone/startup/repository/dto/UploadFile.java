@@ -6,9 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class UploadFile {
 	private int fileSeq;
 	private String fileRealNm;
