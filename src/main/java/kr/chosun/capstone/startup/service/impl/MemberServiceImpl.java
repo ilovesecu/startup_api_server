@@ -68,6 +68,12 @@ public class MemberServiceImpl implements MemberService {
 	public Member getMember(int memSeq) {
 		return memberDao.selectMemberWithoutJoin(memSeq);
 	}
+	
+	//멤버 memStat 업데이트
+	@Override
+	public int updateMemStat(int memSeq, String memStat) {
+		return memberDao.updateMemStat(memSeq, memStat);
+	}
 
 
 }

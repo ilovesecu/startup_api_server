@@ -60,7 +60,9 @@ public class AuthServiceImpl implements AuthService {
 		if(result == 1) { 
 			MemberAuthEmail rs=getAuthInfoWithAuthCode(memberAuthEmail.getMaeAuthCode());
 			Member member = memberService.getMember(rs.getMemSeq());
-			
+			result = 0;
+			if(member != null) //멤버가 정상적으로 있다면 memStat을 업데이트 해준다.
+				result = memberService.updateMemStat(member.getMemSeq(), "NORMAL");
 		}
 		return result;
 	}

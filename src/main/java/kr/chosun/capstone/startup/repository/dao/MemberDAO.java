@@ -1,6 +1,7 @@
 package kr.chosun.capstone.startup.repository.dao;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -14,6 +15,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import kr.chosun.capstone.startup.repository.dto.Member;
+import static kr.chosun.capstone.startup.repository.dao.sqls.MemberSqls.*;
 
 @Repository
 public class MemberDAO {
@@ -39,5 +41,13 @@ public class MemberDAO {
 		String sql = "SELECT * FROM member WHERE mem_seq=:mem_seq";
 		Map<String,Integer> params = Collections.singletonMap("mem_seq", memSeq);
 		return (Member) jdbc.queryForObject(sql, params, memberMapper);
+	}
+	
+	//멤버테이블의 memStat 컬럼 업데이트
+	public int updateMemStat(int memSeq, String memStat) {
+		Map<String,Object> params = new HashMap<>();
+		params.put("memSeq", memSeq);
+		params.put("memStat", memStat);
+		return jdbc.update(UPDATE_MEMSTAT, params);
 	}
 }
