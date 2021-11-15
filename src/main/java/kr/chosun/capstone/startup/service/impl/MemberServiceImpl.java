@@ -51,7 +51,7 @@ public class MemberServiceImpl implements MemberService {
 			characterDao.insertSkillMember(character.getMemSkills(), memSeq);
 		}
 		
-		//인증메일 전송
+		//인증메일 전송 (해당 부분가지 하나의 트랜잭션으로 관리)
 		try {
 			int sendResult = authService.sendAuthMail(memSeq, MailType.REGISTER);
 			if(sendResult==0)return null;
