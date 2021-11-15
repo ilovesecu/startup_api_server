@@ -4,5 +4,6 @@ package kr.chosun.capstone.startup.repository.dao.sqls;
 public class MemberSqls {
 	public static final String UPDATE_MEMSTAT = """
 		UPDATE `member` SET mem_stat = :memStat WHERE mem_seq = :memSeq
-			""";
+	""";
+	
 }

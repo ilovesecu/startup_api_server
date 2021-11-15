@@ -1,6 +1,8 @@
 package kr.chosun.capstone.startup.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.mail.MessagingException;
 
@@ -25,8 +27,6 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private CharacterDAO characterDao;
 	@Autowired
-	private MailService mailService;
-	@Autowired
 	private AuthService authService;
 	
 	//모든 멤버 조회
@@ -34,10 +34,12 @@ public class MemberServiceImpl implements MemberService {
 	public List<Member> getMembers() {
 		return null;
 	}
-
+	
+	//회원가입
 	@Override
 	@Transactional(readOnly = false)
 	public Member register(Member member) {
+		
 		int memSeq=memberDao.insert(member);
 		member.setMemSeq(memSeq);
 		if(member.getMemType().equals("STUDENT")) { //만약에 대학생을 선택했다면 캐릭터까지 DB에 넣어준다.
@@ -74,6 +76,22 @@ public class MemberServiceImpl implements MemberService {
 	public int updateMemStat(int memSeq, String memStat) {
 		return memberDao.updateMemStat(memSeq, memStat);
 	}
-
+	
+	//멤버 아이디 갯수 확인 (중복확인에 활용)
+	@Override
+	public int getMemIdCnt(String memId) {
+		return memberDao.selectMemId(memId);
+	}
+	
+	//멤버 이메일 갯수 확인(중복확인에 활용)
+	@Override
+	public int getMemEmailCnt(String memEmail) {
+		return memberDao.selectMemEmail(memEmail);
+	}
+	
+	private Map<String,Object> registerValidation(){
+		Map<String,Object> result = new HashMap<>();
+		return result;
+	}
 
 }

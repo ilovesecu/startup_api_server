@@ -50,4 +50,18 @@ public class MemberDAO {
 		params.put("memStat", memStat);
 		return jdbc.update(UPDATE_MEMSTAT, params);
 	}
+	
+	//멤버 테이블 ID존재 여부 확인 (ID중복확인에 활용)
+	public int selectMemId(String memId) {
+		Map<String,Object> params = Collections.singletonMap("memId", memId);
+		String sql = "SELECT COUNT(*) FROM member WHERE mem_id=:memId";
+		return jdbc.queryForObject(sql, params, Integer.class);
+	}
+	
+	//멤버 테이블 email 존재 여부 확인(학생의 경우 이메일 중복이 안되므로)
+	public int selectMemEmail(String memEmail) {
+		Map<String,Object> params = Collections.singletonMap("memEmail", memEmail);
+		String sql = "SELECT COUNT(*) FROM member WHERE mem_email=:memEmail";
+		return jdbc.queryForObject(sql, params, Integer.class);
+	}
 }
