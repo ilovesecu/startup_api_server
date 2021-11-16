@@ -2,6 +2,7 @@ package kr.chosun.capstone.startup.repository.dao;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -28,5 +29,10 @@ public class ChallengeDAO {
 	public List<Challenge> selectChallenge(){
 		String sql = "select * from challenge";
 		return jdbc.query(sql, Collections.EMPTY_MAP, challengeMapper);
+	}
+	public void deleteChallenge(Integer cpt_seq) {
+		String sql = "delete from challenge where cpt_seq = :cpt_seq";
+		Map<String, Integer> params = Collections.singletonMap("cpt_seq", cpt_seq);
+		jdbc.update(sql, params);
 	}
 }
