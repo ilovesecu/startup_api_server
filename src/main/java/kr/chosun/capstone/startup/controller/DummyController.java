@@ -27,6 +27,12 @@ public class DummyController {
 		return universityService.getUniversity();
 	}
 	
+	@GetMapping("/user/test")
+	public List<University> authenticationTest() {
+		System.out.println(System.currentTimeMillis());
+		return universityService.getUniversity();
+	}
+	
 	/*
 	@GetMapping("/member/{mem_seq}")
 	public Member getMemberTest(@PathVariable(value="mem_seq")int memSeq) {
