@@ -3,6 +3,7 @@ package kr.chosun.capstone.startup.repository.dto;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -11,6 +12,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Builder
 public class Character {
 	private int memSeq;
 	private String memNickname;
@@ -19,7 +21,8 @@ public class Character {
 	private String memMajor;
 	//private String memMinor; //쓰지않음.
 	private String memMbti;
-	private int profileSeq; //UploadFile.class
+	private UploadFile memProfileImage;
+	//private int profileSeq; //UploadFile.class
 	private List<MemberPPLink> memPPLinks;
 	private List<MemberAwards> memAwards;
 	private List<Skill> memSkills;

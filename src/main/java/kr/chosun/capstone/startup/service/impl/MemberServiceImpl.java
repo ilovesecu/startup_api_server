@@ -71,6 +71,12 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.selectMemberWithoutJoin(memSeq);
 	}
 	
+	//특정 멤버에 대한 (수상내역, 스킬, 포트폴리오 조회)
+	@Override
+	public Member getMemberProfile(int memSeq) {
+		return memberDao.selectMemberWithBasicJoin(memSeq);
+	}
+	
 	//멤버 memStat 업데이트
 	@Override
 	public int updateMemStat(int memSeq, String memStat) {
@@ -88,10 +94,4 @@ public class MemberServiceImpl implements MemberService {
 	public int getMemEmailCnt(String memEmail) {
 		return memberDao.selectMemEmail(memEmail);
 	}
-	
-	private Map<String,Object> registerValidation(){
-		Map<String,Object> result = new HashMap<>();
-		return result;
-	}
-
 }

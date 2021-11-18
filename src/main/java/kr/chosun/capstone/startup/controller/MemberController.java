@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +23,7 @@ import kr.chosun.capstone.startup.service.UniversityService;
 import kr.chosun.capstone.startup.utils.DateUtil;
 
 @RestController
-public class MemberRegisterController {
+public class MemberController {
 	@Autowired
 	private UniversityService universityService;
 	@Autowired
@@ -40,6 +41,12 @@ public class MemberRegisterController {
 	@GetMapping("/skills")
 	public List<Skill> getSkills(){
 		return skillService.getSkills();
+	}
+	
+	//특정 멤버 조회 (학생일 시 character, award, skill, pp 모두 가져온다.)
+	@GetMapping("/member/{mem_seq}")
+	public Member getMemberTest(@PathVariable(value="mem_seq")int memSeq) {
+		return memberService.getMemberProfile(memSeq);
 	}
 	
 	//회원가입(일반 / 학생)

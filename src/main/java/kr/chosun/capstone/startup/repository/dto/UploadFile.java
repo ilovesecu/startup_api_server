@@ -1,6 +1,7 @@
 package kr.chosun.capstone.startup.repository.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -9,6 +10,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Builder
 public class UploadFile {
 	private int fileSeq;
 	private String fileRealNm;
