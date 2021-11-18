@@ -20,7 +20,7 @@ public class MemberSqls {
 		LEFT JOIN member_pp_link PP ON C.mem_seq = PP.mem_seq
 		LEFT JOIN member_skill SKILL ON C.mem_seq = SKILL.mem_seq
 		LEFT JOIN file_info FINFO ON C.profile_seq = FINFO.file_seq
-		INNER JOIN skill TSKILL ON SKILL.skill_seq = TSKILL.skill_seq
-		WHERE M.mem_seq = :memSeq AND FINFO.delete_flag = 'N'
+		LEFT JOIN skill TSKILL ON SKILL.skill_seq = TSKILL.skill_seq
+		WHERE M.mem_seq = :memSeq
 	""";
 }

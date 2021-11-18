@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,8 @@ public class MemberServiceImpl implements MemberService {
 	private CharacterDAO characterDao;
 	@Autowired
 	private AuthService authService;
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	//모든 멤버 조회
 	@Override
@@ -39,6 +42,10 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	@Transactional(readOnly = false)
 	public Member register(Member member) {
+		//패스워드 암호화
+		String rawPassword = member.getPassword();
+		String encPassword = bCryptPasswordEncoder.encode(rawPassword);
+		member.setPassword(encPassword);
 		
 		int memSeq=memberDao.insert(member);
 		member.setMemSeq(memSeq);
