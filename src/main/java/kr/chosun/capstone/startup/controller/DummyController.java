@@ -33,6 +33,12 @@ public class DummyController {
 		return universityService.getUniversity();
 	}
 	
+	@GetMapping("/api/v1/user")
+	public String authenticationTest2() {
+		System.out.println(System.currentTimeMillis());
+		return "Test";
+	}
+	
 	/*
 	@GetMapping("/member/{mem_seq}")
 	public Member getMemberTest(@PathVariable(value="mem_seq")int memSeq) {

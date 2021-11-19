@@ -66,6 +66,13 @@
 			<artifactId>spring-security-config</artifactId>
 			<version>${security.version}</version>
 		</dependency>
+		<!-- JWT -->
+		<!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>3.10.1</version>
+		</dependency>
 		<!-- jackson module -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
