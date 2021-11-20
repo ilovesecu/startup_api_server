@@ -64,10 +64,18 @@ public class MemberDAO {
 		});
 	}
 	
-	//멤버와 관련된 테이블 조인없이 Member테이블의 내용만 조회
+	
+	//멤버와 관련된 테이블 조인없이 Member테이블의 내용만 조회(패스워드까지 노출되니 주의)
 	public Member selectMemberWithoutJoin(int memSeq) {
 		String sql = "SELECT * FROM member WHERE mem_seq=:mem_seq";
 		Map<String,Integer> params = Collections.singletonMap("mem_seq", memSeq);
+		return (Member) jdbc.queryForObject(sql, params, memberMapper);
+	}
+	//멤버와 관련된 테이블 조인없이 Member테이블의 내용만 조회(패스워드까지 노출되니 주의)
+	//해당 메소드는 로그인에 이용되므로 패스워드를 노출해야합니다.
+	public Member selectMemberWithoutJoin(String memId) {
+		String sql = "SELECT * FROM member WHERE mem_id=:memId";
+		Map<String,String> params = Collections.singletonMap("memId", memId);
 		return (Member) jdbc.queryForObject(sql, params, memberMapper);
 	}
 	

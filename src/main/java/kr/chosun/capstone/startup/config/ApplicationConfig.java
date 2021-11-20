@@ -5,7 +5,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@ComponentScan(basePackages = {"kr.chosun.capstone.startup.service","kr.chosun.capstone.startup.repository","kr.chosun.capstone.startup.utils", "kr.chosun.capstone.startup.scheduled"})
+@ComponentScan(basePackages = {
+		"kr.chosun.capstone.startup.service",
+		"kr.chosun.capstone.startup.repository",
+		"kr.chosun.capstone.startup.utils", 
+		"kr.chosun.capstone.startup.scheduled",
+		"kr.chosun.capstone.startup.config.auth"})
 @Import({DBConfig.class})
 public class ApplicationConfig {
 	public static String SERVER_CHANGER="localhost";

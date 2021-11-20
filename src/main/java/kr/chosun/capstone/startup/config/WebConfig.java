@@ -8,6 +8,9 @@ import javax.servlet.ServletRegistration.Dynamic;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import kr.chosun.capstone.startup.config.auth.CorsConfig;
+import kr.chosun.capstone.startup.config.auth.SecurityConfig;
+
 //web.xml 대체
 public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer{
 

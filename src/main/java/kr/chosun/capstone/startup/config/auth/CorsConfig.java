@@ -1,4 +1,4 @@
-package kr.chosun.capstone.startup.config;
+package kr.chosun.capstone.startup.config.auth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
