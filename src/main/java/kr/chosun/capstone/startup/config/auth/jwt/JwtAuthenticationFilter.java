@@ -2,7 +2,10 @@ package kr.chosun.capstone.startup.config.auth.jwt;
 
 
 import java.io.IOException;
+import java.util.Date;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,13 +15,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import kr.chosun.capstone.startup.config.auth.PrincipalDetails;
 import kr.chosun.capstone.startup.repository.dto.Member;
-import lombok.RequiredArgsConstructor;
 
-//formLogin이 아닌 JWT로 로그인하기 위한 클래스 24강
+//formLogin이 아닌 JWT로 로그인하기 위한 클래스 [24]
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter{
 
 	//로그인 요청을 하면 로그인 시도를 위해서 실행되는 메소드
@@ -44,6 +48,23 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	// 위의 attemptAuthentication 실행 후 인증이 정상적으로 되었으면 실행되는 메소드
+	// JWT 토큰을 만들어서 응답해준다.
+	@Override
+	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
+			Authentication authResult) throws IOException, ServletException {
+		System.out.println("successfulAuthentication 인증완료!");
+		PrincipalDetails principalDetails = (PrincipalDetails)authResult.getPrincipal();
+		//토큰 만들 때 기본적으로 Builder패턴.
+		String jwtToken = JWT.create() //pom.xml에 java-jwt해놨기 때문에 가능
+				.withSubject("startUp토큰")
+				.withExpiresAt(new Date(System.currentTimeMillis()+(JwtProperties.EXPIRATION_TIME))) //만료시간
+				.withClaim("id", principalDetails.getUsername())
+				.withClaim("seq", principalDetails.getMember().getMemSeq())
+				.sign(Algorithm.HMAC512(JwtProperties.SECRET)); //내 서버만 아는 고유한 값을 줘야한다.
+		response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX+jwtToken); //이건 고정된 값임. (Bearer하고 한칸 띄워야하는 것 주의)
 	}
 	
 	

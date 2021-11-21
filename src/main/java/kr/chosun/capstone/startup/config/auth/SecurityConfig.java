@@ -10,11 +10,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 import org.springframework.web.filter.CorsFilter;
 
 import kr.chosun.capstone.startup.config.auth.jwt.JwtAuthenticationFilter;
-import kr.chosun.capstone.startup.filter.MyFilter;
+import kr.chosun.capstone.startup.config.auth.jwt.JwtAuthorizationFilter;
+import kr.chosun.capstone.startup.repository.dao.MemberDAO;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -23,6 +23,8 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	private final PrincipalDetailsService principalDetailsService;
 	private final CorsFilter corsFilter;
+	private final MemberDAO memberDao;
+	
 	@Bean //패스워드를 암호화해주는 인코더를 IoC에 등록해준다.
 	public BCryptPasswordEncoder encoderPwd() {
 		return new BCryptPasswordEncoder();
@@ -35,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		jwtAuthenticationFilter.setAuthenticationManager(this.authenticationManagerBean());
 		
 		//BasicAuthenticationFilter가 동작하기 전에 MyFilter가 동작하도록 설정.
-		http.addFilterBefore(new MyFilter(), SecurityContextPersistenceFilter.class);
+		//http.addFilterBefore(new MyFilter(), SecurityContextPersistenceFilter.class);
 		http.csrf().disable();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //세션 사용X(JWT사용 시 기본)
 		.and()
@@ -44,6 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.formLogin().disable()//JWT서버이므로 formLogin 사용X
 		.httpBasic().disable()
 		.addFilter(jwtAuthenticationFilter) //form disable 대응
+		.addFilter(new JwtAuthorizationFilter(this.authenticationManagerBean(), memberDao))
 		.authorizeRequests() //인증이 필요함
 		.antMatchers("/api/v1/user/**").authenticated()
 		.anyRequest().permitAll();
