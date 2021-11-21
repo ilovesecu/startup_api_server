@@ -35,7 +35,7 @@ public class ChallengeScheduler {
 		int cpt_seq;
 		String period;
 		String today = DateUtil.getYYYYMMddStr().replace(File.separator, "-");
-		List<Challenge> chall = dao.selectChallenge();
+		List<Challenge> chall = dao.selectChallenge(0);
 		Iterator<Challenge> iter = chall.iterator();
 		while(iter.hasNext()) {
 			Challenge item = iter.next();

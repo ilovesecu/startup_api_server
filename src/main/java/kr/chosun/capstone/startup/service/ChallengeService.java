@@ -6,5 +6,5 @@ import kr.chosun.capstone.startup.repository.dto.Challenge;
 
 
 public interface ChallengeService {
-	public List<Challenge> getChallenges();
+	public List<Challenge> getChallenges(int id);
 }

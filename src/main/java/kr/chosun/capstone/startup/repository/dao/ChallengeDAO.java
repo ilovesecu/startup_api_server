@@ -26,8 +26,19 @@ public class ChallengeDAO {
 				.usingGeneratedKeyColumns("cpt_seq")
 				.withTableName("challenge");
 	}
-	public List<Challenge> selectChallenge(){
-		String sql = "select * from challenge";
+	public List<Challenge> selectChallenge(int id){
+		//공모전 분야별 검색
+		String sql = "";
+		switch (id) {
+			case 0 : sql = "select * from challenge"; break;
+			case 2 : sql = "select * from challenge where field = 2"; break;
+			case 4 : sql = "select * from challenge where field = 4"; break;
+			case 5 : sql = "select * from challenge where field = 5"; break;
+			case 12 : sql = "select * from challenge where field = 12"; break;
+			case 15 : sql = "select * from challenge where field = 15"; break;
+			default : System.out.println("switch case 문 확인 필요"); break;
+		}
+		//String sql = "select * from challenge";
 		return jdbc.query(sql, Collections.EMPTY_MAP, challengeMapper);
 	}
 	public void deleteChallenge(Integer cpt_seq) {

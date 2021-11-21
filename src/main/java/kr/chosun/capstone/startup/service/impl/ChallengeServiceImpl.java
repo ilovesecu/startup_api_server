@@ -15,8 +15,8 @@ public class ChallengeServiceImpl implements ChallengeService{
 	private ChallengeDAO dao;
 	
 	@Override
-	public List<Challenge> getChallenges() {
-		return dao.selectChallenge();
+	public List<Challenge> getChallenges(int id) {
+		return dao.selectChallenge(id);
 	}
 	
 }
