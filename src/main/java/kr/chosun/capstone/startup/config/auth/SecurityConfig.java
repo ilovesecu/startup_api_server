@@ -36,13 +36,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		AbstractAuthenticationProcessingFilter jwtAuthenticationFilter = new JwtAuthenticationFilter();
 		jwtAuthenticationFilter.setAuthenticationManager(this.authenticationManagerBean());
 		
-		//BasicAuthenticationFilter가 동작하기 전에 MyFilter가 동작하도록 설정.
-		//http.addFilterBefore(new MyFilter(), SecurityContextPersistenceFilter.class);
 		http.csrf().disable();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //세션 사용X(JWT사용 시 기본)
 		.and()
 		.addFilter(corsFilter)//cors 정책 설정 (CorsConfig 참고), @CrossOrigin(=인증이없을때 사용), 인증이있을 때는 시큐리티의 filter에 등록을 해줘야함.
-		//.formLogin().usernameParameter("memId").passwordParameter("password").and()
 		.formLogin().disable()//JWT서버이므로 formLogin 사용X
 		.httpBasic().disable()
 		.addFilter(jwtAuthenticationFilter) //form disable 대응
