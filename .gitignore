@@ -1,5 +1,5 @@
 DBConfig.java
-
+JwtProperties.java
 /target/
 .settings
 .classpath

@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,8 @@ public class MemberServiceImpl implements MemberService {
 	private CharacterDAO characterDao;
 	@Autowired
 	private AuthService authService;
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	//모든 멤버 조회
 	@Override
@@ -39,6 +42,10 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	@Transactional(readOnly = false)
 	public Member register(Member member) {
+		//패스워드 암호화
+		String rawPassword = member.getPassword();
+		String encPassword = bCryptPasswordEncoder.encode(rawPassword);
+		member.setPassword(encPassword);
 		
 		int memSeq=memberDao.insert(member);
 		member.setMemSeq(memSeq);
@@ -51,7 +58,7 @@ public class MemberServiceImpl implements MemberService {
 			characterDao.insertSkillMember(character.getMemSkills(), memSeq);
 		}
 		
-		//인증메일 전송
+		//인증메일 전송 (해당 부분가지 하나의 트랜잭션으로 관리)
 		try {
 			int sendResult = authService.sendAuthMail(memSeq, MailType.REGISTER);
 			if(sendResult==0)return null;
@@ -71,6 +78,12 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.selectMemberWithoutJoin(memSeq);
 	}
 	
+	//특정 멤버에 대한 (수상내역, 스킬, 포트폴리오 조회)
+	@Override
+	public Member getMemberProfile(int memSeq) {
+		return memberDao.selectMemberWithBasicJoin(memSeq);
+	}
+	
 	//멤버 memStat 업데이트
 	@Override
 	public int updateMemStat(int memSeq, String memStat) {
@@ -88,10 +101,4 @@ public class MemberServiceImpl implements MemberService {
 	public int getMemEmailCnt(String memEmail) {
 		return memberDao.selectMemEmail(memEmail);
 	}
-	
-	private Map<String,Object> registerValidation(){
-		Map<String,Object> result = new HashMap<>();
-		return result;
-	}
-
 }

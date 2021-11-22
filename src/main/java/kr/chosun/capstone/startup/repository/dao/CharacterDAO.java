@@ -76,6 +76,7 @@ public class CharacterDAO {
 	}
 	//수상경력 리스트 INSERT
 	public int insertAward(List<MemberAwards> list, int memSeq) {
+		if(list==null || list.size()==0) return 0;
 		int resultCnt=0;
 		for(MemberAwards award : list) {
 			award.setMemSeq(memSeq);
@@ -85,6 +86,7 @@ public class CharacterDAO {
 	}
 	//스킬 리스트 INSERT
 	public int insertSkillMember(List<Skill>list, int memSeq) {
+		if(list==null || list.size()==0) return 0;
 		int resultCnt=0;
 		for(Skill skill:list) {
 			insertSkillMember(skill.getSkillSeq(), memSeq);
