@@ -24,7 +24,7 @@ public class PartyController {
 		return partyService.getParties();
 	}
 	
-	@PostMapping("/makeparty")//json으로 party테이블 형식에 맞게 요청하면 insert
+	@PostMapping("/party")//json으로 party테이블 형식에 맞게 요청하면 insert
 	public int makeParty(@RequestBody Party party) {
 		int key = partyService.makeParty(party);
 		return key;
